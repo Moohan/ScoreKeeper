@@ -15,8 +15,8 @@ import android.view.View;
 import android.widget.NumberPicker;
 
 public class SelectNumPlayersActivity extends AppCompatActivity {
-    public static final String EXTRA_PLAYERS = "com.apps.mcmahon.james.scrablescore.PLAYERS";
-    public static final String EXTRA_CUSTOM_NAMES = "com.apps.mcmahon.james.scrablescore.CUSTOM_NAMES";
+    public static final String EXTRA_PLAYERS = "mcmahon.james.scorekeeper.PLAYERS";
+    public static final String EXTRA_CUSTOM_NAMES = "mcmahon.james.scorekeeper.CUSTOM_NAMES";
 
 
     @Override
