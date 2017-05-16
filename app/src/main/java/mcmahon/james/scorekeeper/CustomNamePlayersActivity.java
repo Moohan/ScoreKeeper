@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 public class CustomNamePlayersActivity extends AppCompatActivity {
 
-    public static final String EXTRA_PLAYER_NAMES = "com.apps.mcmahon.james.scrablescore.PLAYER_NAMES";
+    public static final String EXTRA_PLAYER_NAMES = "mcmahon.james.scorekeeper.PLAYER_NAMES";
     private static final int CENTER_GRAVITY = 0x11;
 
     @Override

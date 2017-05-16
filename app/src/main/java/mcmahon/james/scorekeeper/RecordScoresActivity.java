@@ -10,7 +10,6 @@ package mcmahon.james.scorekeeper;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.View;
@@ -20,8 +19,6 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-
-
 import java.util.ArrayList;
 
 public class RecordScoresActivity extends AppCompatActivity {
@@ -29,10 +26,9 @@ public class RecordScoresActivity extends AppCompatActivity {
     private static final int CENTER_GRAVITY = 0x11;
 
     int roundsCount;
-    @NonNull
-    ArrayList scores = new ArrayList();
+    ArrayList<int[]> scores = new ArrayList<int[]>();
 
-    public defaultPlayerName defaultPlayerName(int playerNumber){
+    public defaultPlayerName defaultPlayerName(int playerNumber) {
         return new defaultPlayerName(String.format(getResources().getString(R.string.Player_number_label), playerNumber));
     }
 
@@ -59,7 +55,6 @@ public class RecordScoresActivity extends AppCompatActivity {
             String playerName = "";
 
 
-
             playerName = customNames ? playerNames[n - 1] : defaultPlayerName(n).getValue();
 
             textView.setText(playerName);
@@ -76,6 +71,7 @@ public class RecordScoresActivity extends AppCompatActivity {
             editTextScore.setInputType(InputType.TYPE_CLASS_NUMBER);
             String hint = "0";
             editTextScore.setHint(hint);
+            editTextScore.setText("0"); //TODO Remove this line and add a check for no score ("") later on
             editTextScore.setGravity(CENTER_GRAVITY);
             editTextScore.setImeOptions(EditorInfo.IME_ACTION_NEXT);
             if (n == numberOfPlayers) {
@@ -91,7 +87,7 @@ public class RecordScoresActivity extends AppCompatActivity {
         /**Give edit texts IDs
          have an add button which takes values from editi
          texts and sets them to be uneditable and then draws a
-         new row of eedit texts
+         new row of edit texts
          Array list!
          **/
 
@@ -111,10 +107,11 @@ public class RecordScoresActivity extends AppCompatActivity {
             editText.setEnabled(false);
             //collect the scores into an array
             int score = Integer.parseInt(editText.getText().toString());
-            roundScores[n] = score;
+            roundScores[n - 1] = score;
         }
         //add the round scores to the overall score
-        this.scores.add(this.roundsCount, roundScores);
+        this.scores.add(new int[numberOfPlayers]);
+        this.scores.add(this.scores.size() - 1, roundScores);  //FIXME
         //Draw some a new row of edit texts
         TableRow tableRow = new TableRow(this);
         for (int n = 1; n <= numberOfPlayers; n++) {
