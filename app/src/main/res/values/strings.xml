@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Score Keeper</string>
+    <string name="Start">Start</string>
+    <string name="Add_score">Add scores</string>
+    <string name="how_many_players">How many players?</string>
+    <string name="quickStart">Quick Start</string>
+    <string name="namePlayers">Name Players</string>
+    <string name="Player_number_label">Player %1$d</string>
+</resources>
