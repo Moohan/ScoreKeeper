@@ -72,6 +72,7 @@ public class RecordScoresActivity extends AppCompatActivity {
             String hint = "0";
             editTextScore.setHint(hint);
             editTextScore.setText("0"); //TODO Remove this line and add a check for no score ("") later on
+            editTextScore.setInputType(InputType.TYPE_CLASS_NUMBER);
             editTextScore.setGravity(CENTER_GRAVITY);
             editTextScore.setImeOptions(EditorInfo.IME_ACTION_NEXT);
             if (n == numberOfPlayers) {
@@ -109,26 +110,31 @@ public class RecordScoresActivity extends AppCompatActivity {
             int score = Integer.parseInt(editText.getText().toString());
             roundScores[n - 1] = score;
         }
+        
         //add the round scores to the overall score
         this.scores.add(new int[numberOfPlayers]);
-        this.scores.add(this.scores.size() - 1, roundScores);  //FIXME
+        this.scores.add(this.scores.size() - 1, roundScores);
+        
         //Draw some a new row of edit texts
         TableRow tableRow = new TableRow(this);
         for (int n = 1; n <= numberOfPlayers; n++) {
             // Creation editTexts
             EditText editTextScore = new EditText(this);
             String hint = "0";
-
             editTextScore.setHint(hint);
-            String text = "";
-            editTextScore.setText(text);
+            editTextScore.setInputType(InputType.TYPE_CLASS_NUMBER);
+            
             editTextScore.setGravity(CENTER_GRAVITY);
 
             editTextScore.setId(n);
             // Add text view to row
             tableRow.addView(editTextScore);
-            this.roundsCount++;
+            editTextScore.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+            if (n == numberOfPlayers) {
+                editTextScore.setImeOptions(EditorInfo.IME_ACTION_DONE);
+            }
         }
+        this.roundsCount++;
         scoresTable.addView(tableRow, scoresTable.getChildCount() - 1);
     }
 
