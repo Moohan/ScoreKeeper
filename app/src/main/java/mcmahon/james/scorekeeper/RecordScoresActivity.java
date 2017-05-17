@@ -9,6 +9,7 @@
 package mcmahon.james.scorekeeper;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -38,9 +39,6 @@ public class RecordScoresActivity extends AppCompatActivity {
         setContentView(R.layout.activity_record_scores);
         Intent intent = getIntent();
         int numberOfPlayers = intent.getIntExtra(SelectNumPlayersActivity.EXTRA_PLAYERS, 2);
-        TableLayout scoresTable = (TableLayout) findViewById(R.id.player_score_table);
-        TableRow tableHeaderRow = (TableRow) findViewById(R.id.player_score_table_header_row);
-
 
         Boolean customNames = intent.getBooleanExtra(SelectNumPlayersActivity.EXTRA_CUSTOM_NAMES, false);
 
@@ -49,12 +47,14 @@ public class RecordScoresActivity extends AppCompatActivity {
             playerNames = intent.getStringArrayExtra(CustomNamePlayersActivity.EXTRA_PLAYER_NAMES);
         }
 
+        //Create the player names header row
+        TableRow tableHeaderRow = (TableRow) findViewById(R.id.player_score_table_header_row);
+
         for (int n = 1; n <= numberOfPlayers; n++) {
             // Creation textView
             TextView textView = new TextView(this);
-            String playerName = "";
 
-
+            String playerName;
             playerName = customNames ? playerNames[n - 1] : defaultPlayerName(n).getValue();
 
             textView.setText(playerName);
@@ -63,15 +63,28 @@ public class RecordScoresActivity extends AppCompatActivity {
             tableHeaderRow.addView(textView);
         }
 
+        TableRow tableSumRow = (TableRow) findViewById(R.id.player_score_table_sum_row);
+
+        for (int n = 1; n <= numberOfPlayers; n++) {
+            // Creation textView
+            TextView textView = new TextView(this);
+            textView.setText("0");
+            textView.setGravity(CENTER_GRAVITY);
+            textView.setTypeface(Typeface.DEFAULT_BOLD);
+
+            // Add text view to row
+            tableSumRow.addView(textView);
+
+        }
+
+        //Create the first row of editTexts
         TableRow tableRow1 = (TableRow) findViewById(R.id.player_score_table_row1);
 
         for (int n = 1; n <= numberOfPlayers; n++) {
             // Creation editTexts
             EditText editTextScore = new EditText(this);
-            editTextScore.setInputType(InputType.TYPE_CLASS_NUMBER);
             String hint = "0";
             editTextScore.setHint(hint);
-            editTextScore.setText("0"); //TODO Remove this line and add a check for no score ("") later on
             editTextScore.setInputType(InputType.TYPE_CLASS_NUMBER);
             editTextScore.setGravity(CENTER_GRAVITY);
             editTextScore.setImeOptions(EditorInfo.IME_ACTION_NEXT);
@@ -85,13 +98,6 @@ public class RecordScoresActivity extends AppCompatActivity {
 
         this.roundsCount++;
 
-        /**Give edit texts IDs
-         have an add button which takes values from editi
-         texts and sets them to be uneditable and then draws a
-         new row of edit texts
-         Array list!
-         **/
-
     }
 
     public final void addScores(View view) {
@@ -103,11 +109,15 @@ public class RecordScoresActivity extends AppCompatActivity {
 
         //Store Player scores
         for (int n = 1; n <= numberOfPlayers; n++) {
-            EditText editText = (EditText) findViewById(n);
+            EditText editText = (EditText) findViewById(n); //TODO Find better way of assigning IDs
             //turn off the edit text
             editText.setEnabled(false);
             //collect the scores into an array
-            int score = Integer.parseInt(editText.getText().toString());
+            int score = 0;
+            if (!(editText.getText().toString() == "")) {
+                score = Integer.parseInt(editText.getText().toString());
+            }
+
             roundScores[n - 1] = score;
         }
         
@@ -123,9 +133,7 @@ public class RecordScoresActivity extends AppCompatActivity {
             String hint = "0";
             editTextScore.setHint(hint);
             editTextScore.setInputType(InputType.TYPE_CLASS_NUMBER);
-            
             editTextScore.setGravity(CENTER_GRAVITY);
-
             editTextScore.setId(n);
             // Add text view to row
             tableRow.addView(editTextScore);
