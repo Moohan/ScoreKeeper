@@ -39,10 +39,8 @@
             <TableRow
                 android:id="@+id/player_score_table_sum_row"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent" />
 
-
-            </TableRow>
 
         </TableLayout>
     </ScrollView>

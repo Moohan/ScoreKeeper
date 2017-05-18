@@ -28,8 +28,8 @@ public class RecordScoresActivity extends AppCompatActivity {
 
     public int[][] scoreSums; //initialised once we know how many players we have
     int roundsCount;
-    ArrayList<int[]> scores = new ArrayList<>();
-    ArrayList<int[]> scoreID = new ArrayList<>(); //FIXME
+    ArrayList<int[]> scores = new ArrayList<int[]>();
+    ArrayList<int[]> scoreID = new ArrayList<int[]>(); //FIXME
 
     public defaultPlayerName defaultPlayerName(int playerNumber) {
         return new defaultPlayerName(String.format(getResources().getString(R.string.Player_number_label), playerNumber));
