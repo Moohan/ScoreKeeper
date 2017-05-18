@@ -10,37 +10,42 @@
     tools:context="mcmahon.james.scorekeeper.RecordScoresActivity">
 
 
-    <TableLayout
-        android:id="@+id/player_score_table"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:stretchColumns="*">
+        android:layout_height="match_parent">
 
-        <TableRow
-            android:id="@+id/player_score_table_header_row"
+        <TableLayout
+            android:id="@+id/player_score_table"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:stretchColumns="*">
 
-        <TableRow
-            android:id="@+id/player_score_table_row1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <TableRow
+                android:id="@+id/player_score_table_header_row"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:visibility="visible" />
+            <TableRow
+                android:id="@+id/player_score_table_row1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-        <TableRow
-            android:id="@+id/player_score_table_sum_row"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:visibility="visible" />
+
+            <TableRow
+                android:id="@+id/player_score_table_sum_row"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
 
-        </TableRow>
+            </TableRow>
 
-    </TableLayout>
+        </TableLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/add_score_button"

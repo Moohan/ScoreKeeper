@@ -13,6 +13,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -24,10 +25,11 @@ import java.util.ArrayList;
 
 public class RecordScoresActivity extends AppCompatActivity {
 
-    private static final int CENTER_GRAVITY = 0x11;
 
+    public int[][] scoreSums; //initialised once we know how many players we have
     int roundsCount;
-    ArrayList<int[]> scores = new ArrayList<int[]>();
+    ArrayList<int[]> scores = new ArrayList<>();
+    ArrayList<int[]> scoreID = new ArrayList<>(); //FIXME
 
     public defaultPlayerName defaultPlayerName(int playerNumber) {
         return new defaultPlayerName(String.format(getResources().getString(R.string.Player_number_label), playerNumber));
@@ -51,26 +53,36 @@ public class RecordScoresActivity extends AppCompatActivity {
         TableRow tableHeaderRow = (TableRow) findViewById(R.id.player_score_table_header_row);
 
         for (int n = 1; n <= numberOfPlayers; n++) {
-            // Creation textView
+            // Create textView
             TextView textView = new TextView(this);
 
             String playerName;
             playerName = customNames ? playerNames[n - 1] : defaultPlayerName(n).getValue();
 
             textView.setText(playerName);
-            textView.setGravity(CENTER_GRAVITY);
+            textView.setGravity(Gravity.CENTER_HORIZONTAL);
             // Add text view to row
             tableHeaderRow.addView(textView);
         }
 
+        //Create bottom row of table to show score sums
         TableRow tableSumRow = (TableRow) findViewById(R.id.player_score_table_sum_row);
+        int[][] scoreSums = new int[numberOfPlayers][2];
+        //initialise scores to zero
+        for (int player = 1; player <= numberOfPlayers; player++) {
+            scoreSums[player - 1][1] = 0;
+        }
 
         for (int n = 1; n <= numberOfPlayers; n++) {
-            // Creation textView
+            // Create textView
             TextView textView = new TextView(this);
             textView.setText("0");
-            textView.setGravity(CENTER_GRAVITY);
+            textView.setGravity(Gravity.CENTER_HORIZONTAL);
             textView.setTypeface(Typeface.DEFAULT_BOLD);
+
+            //Give each counter an ID and store it
+            textView.setId(View.generateViewId());
+            this.scoreSums[n - 1][0] = textView.getId();
 
             // Add text view to row
             tableSumRow.addView(textView);
@@ -80,23 +92,27 @@ public class RecordScoresActivity extends AppCompatActivity {
         //Create the first row of editTexts
         TableRow tableRow1 = (TableRow) findViewById(R.id.player_score_table_row1);
 
+        int roundIDs[] = new int[numberOfPlayers];
+
         for (int n = 1; n <= numberOfPlayers; n++) {
-            // Creation editTexts
+            // Create editTexts
             EditText editTextScore = new EditText(this);
             String hint = "0";
             editTextScore.setHint(hint);
             editTextScore.setInputType(InputType.TYPE_CLASS_NUMBER);
-            editTextScore.setGravity(CENTER_GRAVITY);
+            editTextScore.setGravity(Gravity.CENTER_HORIZONTAL);
             editTextScore.setImeOptions(EditorInfo.IME_ACTION_NEXT);
             if (n == numberOfPlayers) {
                 editTextScore.setImeOptions(EditorInfo.IME_ACTION_DONE);
             }
-            editTextScore.setId(n);
+            editTextScore.setId(View.generateViewId());
+            roundIDs[n - 1] = editTextScore.getId();
             // Add text view to row
             tableRow1.addView(editTextScore);
         }
-
-        this.roundsCount++;
+        scoreID.add(new int[numberOfPlayers]);
+        scoreID.add(this.scores.size() - 1, roundIDs);
+        roundsCount++;
 
     }
 
@@ -109,32 +125,34 @@ public class RecordScoresActivity extends AppCompatActivity {
 
         //Store Player scores
         for (int n = 1; n <= numberOfPlayers; n++) {
-            EditText editText = (EditText) findViewById(n); //TODO Find better way of assigning IDs
+            EditText editText = (EditText) findViewById((scoreID.get(scoreID.size() - 1)[n])); //TODO Find better way of assigning IDs
             //turn off the edit text
             editText.setEnabled(false);
             //collect the scores into an array
             int score = 0;
-            if (!(editText.getText().toString() == "")) {
+            if (!(editText.getText().toString().equals(""))) {
                 score = Integer.parseInt(editText.getText().toString());
             }
 
             roundScores[n - 1] = score;
         }
-        
+
         //add the round scores to the overall score
-        this.scores.add(new int[numberOfPlayers]);
-        this.scores.add(this.scores.size() - 1, roundScores);
-        
+        scores.add(new int[numberOfPlayers]);
+        scores.add(this.scores.size() - 1, roundScores);
+
         //Draw some a new row of edit texts
         TableRow tableRow = new TableRow(this);
+        int roundIDs[] = new int[numberOfPlayers];
         for (int n = 1; n <= numberOfPlayers; n++) {
-            // Creation editTexts
+            // Create editTexts
             EditText editTextScore = new EditText(this);
             String hint = "0";
             editTextScore.setHint(hint);
             editTextScore.setInputType(InputType.TYPE_CLASS_NUMBER);
-            editTextScore.setGravity(CENTER_GRAVITY);
-            editTextScore.setId(n);
+            editTextScore.setGravity(Gravity.CENTER_HORIZONTAL);
+            editTextScore.setId(View.generateViewId());
+            roundIDs[n - 1] = editTextScore.getId();
             // Add text view to row
             tableRow.addView(editTextScore);
             editTextScore.setImeOptions(EditorInfo.IME_ACTION_NEXT);
@@ -142,8 +160,10 @@ public class RecordScoresActivity extends AppCompatActivity {
                 editTextScore.setImeOptions(EditorInfo.IME_ACTION_DONE);
             }
         }
-        this.roundsCount++;
-        scoresTable.addView(tableRow, scoresTable.getChildCount() - 1);
+        scoreID.add(new int[numberOfPlayers]);
+        scoreID.add(this.scores.size() - 1, roundIDs);
+        roundsCount++;
+        scoresTable.addView(tableRow, scoresTable.getChildCount() - 2);
     }
 
 }

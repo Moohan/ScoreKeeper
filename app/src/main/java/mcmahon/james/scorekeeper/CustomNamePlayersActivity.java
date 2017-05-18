@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -23,8 +24,7 @@ import android.widget.TextView;
 public class CustomNamePlayersActivity extends AppCompatActivity {
 
     public static final String EXTRA_PLAYER_NAMES = "mcmahon.james.scorekeeper.PLAYER_NAMES";
-    private static final int CENTER_GRAVITY = 0x11;
-
+    int playerNameID[];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +35,7 @@ public class CustomNamePlayersActivity extends AppCompatActivity {
 
 
         TableLayout tableLayout = (TableLayout) this.findViewById(R.id.player_name_table);
-
+        playerNameID = new int[numberOfPlayers];
         for (int n = 1; n <= numberOfPlayers; n++) {
             //Create  tableRow
             TableRow tableRow = new TableRow(this);
@@ -45,7 +45,7 @@ public class CustomNamePlayersActivity extends AppCompatActivity {
             Resources res = this.getResources();
             String text = defaultPlayerName(n).getValue();
             textViewPlayerNumber.setText(text);
-            textViewPlayerNumber.setGravity(CustomNamePlayersActivity.CENTER_GRAVITY);
+            textViewPlayerNumber.setGravity(Gravity.CENTER_HORIZONTAL);
 
             //Create editText
             EditText editTextPlayerName = new EditText(this);
@@ -53,7 +53,8 @@ public class CustomNamePlayersActivity extends AppCompatActivity {
             editTextPlayerName.setHint(playerName);
 
             //Give them IDs
-            editTextPlayerName.setId(n);
+            editTextPlayerName.setId(View.generateViewId());
+            playerNameID[n - 1] = editTextPlayerName.getId();
             editTextPlayerName.setImeActionLabel("Next", n);
             editTextPlayerName.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
@@ -80,7 +81,7 @@ public class CustomNamePlayersActivity extends AppCompatActivity {
         String[] playerNames = new String[numberOfPlayers];
 
         for (int n = 1; n <= numberOfPlayers; n++) {
-            EditText editText = (EditText) this.findViewById(n);
+            EditText editText = (EditText) this.findViewById(playerNameID[n - 1]);
             String playerName = editText.getText().toString();
             if (playerName.isEmpty()) {
                 Resources res = this.getResources();
