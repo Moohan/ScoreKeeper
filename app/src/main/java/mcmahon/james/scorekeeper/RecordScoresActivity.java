@@ -27,9 +27,9 @@ public class RecordScoresActivity extends AppCompatActivity {
 
 
     public int[][] scoreSums; //initialised once we know how many players we have
-    int roundsCount;
-    ArrayList<int[]> scores = new ArrayList<int[]>();
-    ArrayList<int[]> scoreID = new ArrayList<int[]>(); //FIXME
+    public int rounds;
+    ArrayList<ArrayList<Integer>> scores = new ArrayList<ArrayList<Integer>>();
+    ArrayList<ArrayList<Integer>> scoreID = new ArrayList<ArrayList<Integer>>(); //FIXME
 
     public defaultPlayerName defaultPlayerName(int playerNumber) {
         return new defaultPlayerName(String.format(getResources().getString(R.string.Player_number_label), playerNumber));
@@ -68,10 +68,17 @@ public class RecordScoresActivity extends AppCompatActivity {
         //Create bottom row of table to show score sums
         TableRow tableSumRow = (TableRow) findViewById(R.id.player_score_table_sum_row);
         int[][] scoreSums = new int[numberOfPlayers][2];
+
         //initialise scores to zero
         for (int player = 1; player <= numberOfPlayers; player++) {
             scoreSums[player - 1][1] = 0;
         }
+
+        for (int i = 1; i <= numberOfPlayers; i++) {
+            scores.add(new ArrayList<Integer>());
+        }
+
+        rounds = 0;
 
         for (int n = 1; n <= numberOfPlayers; n++) {
             // Create textView
@@ -82,7 +89,7 @@ public class RecordScoresActivity extends AppCompatActivity {
 
             //Give each counter an ID and store it
             textView.setId(View.generateViewId());
-            this.scoreSums[n - 1][0] = textView.getId();
+            scoreSums[n - 1][0] = textView.getId();
 
             // Add text view to row
             tableSumRow.addView(textView);
@@ -92,7 +99,9 @@ public class RecordScoresActivity extends AppCompatActivity {
         //Create the first row of editTexts
         TableRow tableRow1 = (TableRow) findViewById(R.id.player_score_table_row1);
 
-        int roundIDs[] = new int[numberOfPlayers];
+        for (int i = 1; i <= numberOfPlayers; i++) {
+            scoreID.add(new ArrayList<Integer>());
+        }
 
         for (int n = 1; n <= numberOfPlayers; n++) {
             // Create editTexts
@@ -106,26 +115,23 @@ public class RecordScoresActivity extends AppCompatActivity {
                 editTextScore.setImeOptions(EditorInfo.IME_ACTION_DONE);
             }
             editTextScore.setId(View.generateViewId());
-            roundIDs[n - 1] = editTextScore.getId();
+
+            scoreID.get(n - 1).add(editTextScore.getId());
+
             // Add text view to row
             tableRow1.addView(editTextScore);
         }
-        scoreID.add(new int[numberOfPlayers]);
-        scoreID.add(this.scores.size() - 1, roundIDs);
-        roundsCount++;
-
     }
 
     public final void addScores(View view) {
         Intent intent = getIntent();
         int numberOfPlayers = intent.getIntExtra(SelectNumPlayersActivity.EXTRA_PLAYERS, 2);
         TableLayout scoresTable = (TableLayout) findViewById(R.id.player_score_table);
-        //Add round array to arraylist
-        int[] roundScores = new int[numberOfPlayers];
+
 
         //Store Player scores
         for (int n = 1; n <= numberOfPlayers; n++) {
-            EditText editText = (EditText) findViewById((scoreID.get(scoreID.size() - 1)[n])); //TODO Find better way of assigning IDs
+            EditText editText = (EditText) findViewById(scoreID.get(n - 1).get(rounds)); //TODO Find better way of assigning IDs
             //turn off the edit text
             editText.setEnabled(false);
             //collect the scores into an array
@@ -134,12 +140,8 @@ public class RecordScoresActivity extends AppCompatActivity {
                 score = Integer.parseInt(editText.getText().toString());
             }
 
-            roundScores[n - 1] = score;
+            scores.get(n - 1).add(score);
         }
-
-        //add the round scores to the overall score
-        scores.add(new int[numberOfPlayers]);
-        scores.add(this.scores.size() - 1, roundScores);
 
         //Draw some a new row of edit texts
         TableRow tableRow = new TableRow(this);
@@ -152,7 +154,9 @@ public class RecordScoresActivity extends AppCompatActivity {
             editTextScore.setInputType(InputType.TYPE_CLASS_NUMBER);
             editTextScore.setGravity(Gravity.CENTER_HORIZONTAL);
             editTextScore.setId(View.generateViewId());
-            roundIDs[n - 1] = editTextScore.getId();
+
+            scoreID.get(n - 1).add(editTextScore.getId());
+
             // Add text view to row
             tableRow.addView(editTextScore);
             editTextScore.setImeOptions(EditorInfo.IME_ACTION_NEXT);
@@ -160,10 +164,11 @@ public class RecordScoresActivity extends AppCompatActivity {
                 editTextScore.setImeOptions(EditorInfo.IME_ACTION_DONE);
             }
         }
-        scoreID.add(new int[numberOfPlayers]);
-        scoreID.add(this.scores.size() - 1, roundIDs);
-        roundsCount++;
+
         scoresTable.addView(tableRow, scoresTable.getChildCount() - 2);
+
+        //next round
+        rounds++;
     }
 
 }
