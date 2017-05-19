@@ -1,7 +1,7 @@
 <resources>
     <string name="Label_app_name">Score Keeper</string>
     <string name="Start">Start</string>
-    <string name="Add_score">Add scores</string>
+    <string name="End_round">End Round</string>
     <string name="How_many_players">How many players?</string>
     <string name="Quick_start">Quick Start</string>
     <string name="Name_Players">Name Players</string>

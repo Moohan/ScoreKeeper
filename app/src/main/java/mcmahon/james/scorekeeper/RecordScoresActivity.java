@@ -21,14 +21,15 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class RecordScoresActivity extends AppCompatActivity {
 
 
-    private int[][] scoreSums; //initialised once we know how many players we have
+    private double[][] scoreSums; //initialised once we know how many players we have
     private int rounds;
-    private ArrayList<ArrayList<Integer>> scores = new ArrayList<>();
+    private ArrayList<ArrayList<Double>> scores = new ArrayList<>();
     private ArrayList<ArrayList<Integer>> scoreID = new ArrayList<>();
 
     private defaultPlayerName defaultPlayerName(int playerNumber) {
@@ -39,18 +40,21 @@ public class RecordScoresActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_scores);
+
         Intent intent = getIntent();
         int numberOfPlayers = intent.getIntExtra(SelectNumPlayersActivity.EXTRA_PLAYERS, 2);
 
         Boolean customNames = intent.getBooleanExtra(SelectNumPlayersActivity.EXTRA_CUSTOM_NAMES, false);
 
         String playerNames[] = new String[numberOfPlayers];
+
         if (customNames) {
             playerNames = intent.getStringArrayExtra(CustomNamePlayersActivity.EXTRA_PLAYER_NAMES);
         }
 
         //Create the player names header row
         TableRow tableHeaderRow = (TableRow) findViewById(R.id.player_score_table_header_row);
+
 
         for (int n = 1; n <= numberOfPlayers; n++) {
             // Create textView
@@ -62,13 +66,15 @@ public class RecordScoresActivity extends AppCompatActivity {
             textView.setText(playerName);
             textView.setGravity(Gravity.CENTER_HORIZONTAL);
             textView.setTypeface(Typeface.DEFAULT_BOLD);
+
             // Add text view to row
             tableHeaderRow.addView(textView);
         }
 
+
         //Create bottom row of table to show score sums
         TableRow tableSumRow = (TableRow) findViewById(R.id.player_score_table_sum_row);
-        scoreSums = new int[numberOfPlayers][2];
+        scoreSums = new double[numberOfPlayers][2];
 
         //initialise scores to zero
         for (int player = 1; player <= numberOfPlayers; player++) {
@@ -76,7 +82,7 @@ public class RecordScoresActivity extends AppCompatActivity {
         }
 
         for (int i = 1; i <= numberOfPlayers; i++) {
-            scores.add(new ArrayList<Integer>());
+            scores.add(new ArrayList<Double>());
         }
 
         rounds = 0;
@@ -113,7 +119,7 @@ public class RecordScoresActivity extends AppCompatActivity {
             EditText editTextScore = new EditText(this);
             String hint = "0";
             editTextScore.setHint(hint);
-            editTextScore.setInputType(InputType.TYPE_CLASS_NUMBER);
+            editTextScore.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
             editTextScore.setGravity(Gravity.CENTER_HORIZONTAL);
             editTextScore.setImeOptions(EditorInfo.IME_ACTION_NEXT);
             if (n == numberOfPlayers) {
@@ -129,7 +135,7 @@ public class RecordScoresActivity extends AppCompatActivity {
     }
 
 
-    public final void addScores(View view) {
+    public final void endRound(View view) {
         Intent intent = getIntent();
         int numberOfPlayers = intent.getIntExtra(SelectNumPlayersActivity.EXTRA_PLAYERS, 2);
         TableLayout scoresTable = (TableLayout) findViewById(R.id.player_score_table);
@@ -140,11 +146,18 @@ public class RecordScoresActivity extends AppCompatActivity {
             //turn off the edit text
             editText.setEnabled(false);
             //collect the scores into an array
-            int score = 0;
+            double score = 0;
             if (!(editText.getText().toString().equals(""))) {
-                score = Integer.parseInt(editText.getText().toString());
+                score = Double.parseDouble(editText.getText().toString());
             }
             scores.get(n - 1).add(score);
+            scoreSums[n - 1][1] += score;
+            DecimalFormat decimalFormat = new DecimalFormat("0.###");
+            String scoreSumDisplayable = decimalFormat.format(scoreSums[n - 1][1]);
+
+            int playerScoreID = (int) scoreSums[n - 1][0];
+            TextView textViewScoresSum = (TextView) findViewById(playerScoreID);
+            textViewScoresSum.setText(scoreSumDisplayable);
         }
 
         //Draw some a new row of edit texts
