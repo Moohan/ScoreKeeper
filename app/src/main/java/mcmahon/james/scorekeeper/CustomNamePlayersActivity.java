@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -55,8 +56,11 @@ public class CustomNamePlayersActivity extends AppCompatActivity {
             //Give them IDs
             editTextPlayerName.setId(View.generateViewId());
             playerNameID[n - 1] = editTextPlayerName.getId();
-            editTextPlayerName.setImeActionLabel("Next", n);
+            editTextPlayerName.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
             editTextPlayerName.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+            if (n == numberOfPlayers) {
+                editTextPlayerName.setImeOptions(EditorInfo.IME_ACTION_DONE);
+            }
 
 
             // Add textView to row
@@ -84,7 +88,7 @@ public class CustomNamePlayersActivity extends AppCompatActivity {
             EditText editText = (EditText) this.findViewById(playerNameID[n - 1]);
             String playerName = editText.getText().toString();
             if (playerName.isEmpty()) {
-                Resources res = this.getResources();
+
                 playerNames[n - 1] = defaultPlayerName(n).getValue();
             } else {
                 playerNames[n - 1] = playerName;
