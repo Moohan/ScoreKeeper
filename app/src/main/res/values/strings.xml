@@ -1,9 +1,12 @@
 <resources>
-    <string name="app_name">Score Keeper</string>
+    <string name="Label_app_name">Score Keeper</string>
     <string name="Start">Start</string>
     <string name="Add_score">Add scores</string>
-    <string name="how_many_players">How many players?</string>
-    <string name="quickStart">Quick Start</string>
-    <string name="namePlayers">Name Players</string>
-    <string name="Player_number_label">Player %1$d</string>
+    <string name="How_many_players">How many players?</string>
+    <string name="Quick_start">Quick Start</string>
+    <string name="Name_Players">Name Players</string>
+    <string name="Default_Player_name_with_number">Player %1$d</string>
+    <string name="Label_choose_number_of_Players">Choose number of players</string>
+    <string name="Label_Record_Scores">Record Scores</string>
+    <string name="Label_Custom_Name_Players">Name Players</string>
 </resources>

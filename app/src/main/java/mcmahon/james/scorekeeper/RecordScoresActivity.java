@@ -32,7 +32,7 @@ public class RecordScoresActivity extends AppCompatActivity {
     ArrayList<ArrayList<Integer>> scoreID = new ArrayList<ArrayList<Integer>>(); //FIXME
 
     public defaultPlayerName defaultPlayerName(int playerNumber) {
-        return new defaultPlayerName(String.format(getResources().getString(R.string.Player_number_label), playerNumber));
+        return new defaultPlayerName(String.format(getResources().getString(R.string.Default_Player_name_with_number), playerNumber));
     }
 
     @Override

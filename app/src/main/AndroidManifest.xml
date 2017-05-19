@@ -5,20 +5,23 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/Label_app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name="mcmahon.james.scorekeeper.SelectNumPlayersActivity"
-            android:label="@string/app_name">
+            android:label="@string/Label_choose_number_of_Players">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="mcmahon.james.scorekeeper.RecordScoresActivity" />
-        <activity android:name="mcmahon.james.scorekeeper.CustomNamePlayersActivity" />
+        <activity
+            android:name="mcmahon.james.scorekeeper.RecordScoresActivity"
+            android:label="@string/Label_Record_Scores" />
+        <activity
+            android:name="mcmahon.james.scorekeeper.CustomNamePlayersActivity"
+            android:label="@string/Label_Custom_Name_Players" />
     </application>
-
 </manifest>

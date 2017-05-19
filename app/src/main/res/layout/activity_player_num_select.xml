@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="@string/how_many_players"
+        android:text="@string/How_many_players"
         android:textAlignment="center"
         android:textAppearance="@android:style/TextAppearance.Large" />
 
@@ -40,7 +40,7 @@
             android:gravity="center"
             android:hapticFeedbackEnabled="true"
             android:onClick="quickAcceptPlayers"
-            android:text="@string/quickStart"
+            android:text="@string/Quick_start"
             tools:ignore="ButtonStyle" />
 
         <Button
@@ -50,7 +50,7 @@
             android:gravity="center"
             android:hapticFeedbackEnabled="true"
             android:onClick="namePlayers"
-            android:text="@string/namePlayers"
+            android:text="@string/Name_Players"
             tools:ignore="ButtonStyle" />
 
     </LinearLayout>

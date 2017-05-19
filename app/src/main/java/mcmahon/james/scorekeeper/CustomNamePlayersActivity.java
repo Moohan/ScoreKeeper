@@ -71,7 +71,7 @@ public class CustomNamePlayersActivity extends AppCompatActivity {
     }
 
     public defaultPlayerName defaultPlayerName(int playerNumber){
-        return new defaultPlayerName(String.format(getResources().getString(R.string.Player_number_label), playerNumber));
+        return new defaultPlayerName(String.format(getResources().getString(R.string.Default_Player_name_with_number), playerNumber));
     }
 
     public final void acceptPlayers(View view) {
