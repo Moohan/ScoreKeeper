@@ -63,6 +63,7 @@ public class RecordScoresActivity extends AppCompatActivity {
             textView.setText(playerName);
             textView.setGravity(Gravity.CENTER_HORIZONTAL);
             textView.setTypeface(Typeface.DEFAULT_BOLD);
+
             // Add text view to row
             tableHeaderRow.addView(textView);
         }
@@ -114,7 +115,7 @@ public class RecordScoresActivity extends AppCompatActivity {
             EditText editTextScore = new EditText(this);
             String hint = "0";
             editTextScore.setHint(hint);
-            editTextScore.setInputType(InputType.TYPE_CLASS_NUMBER);
+            editTextScore.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
             editTextScore.setGravity(Gravity.CENTER_HORIZONTAL);
             editTextScore.setImeOptions(EditorInfo.IME_ACTION_NEXT);
             if (n == numberOfPlayers) {
@@ -153,8 +154,6 @@ public class RecordScoresActivity extends AppCompatActivity {
             int playerScoreID = (int) scoreSums[n - 1][0];
             TextView textViewScoresSum = (TextView) findViewById(playerScoreID);
             textViewScoresSum.setText(scoreSumDisplayable);
-
-
         }
 
         //Draw some a new row of edit texts
