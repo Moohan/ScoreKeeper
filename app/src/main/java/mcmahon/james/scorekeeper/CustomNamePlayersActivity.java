@@ -9,7 +9,6 @@
 package mcmahon.james.scorekeeper;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -25,7 +24,7 @@ import android.widget.TextView;
 public class CustomNamePlayersActivity extends AppCompatActivity {
 
     public static final String EXTRA_PLAYER_NAMES = "mcmahon.james.scorekeeper.PLAYER_NAMES";
-    int playerNameID[];
+    private int[] playerNameID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +42,7 @@ public class CustomNamePlayersActivity extends AppCompatActivity {
 
             // Create textView
             TextView textViewPlayerNumber = new TextView(this);
-            Resources res = this.getResources();
+
             String text = defaultPlayerName(n).getValue();
             textViewPlayerNumber.setText(text);
             textViewPlayerNumber.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -74,7 +73,7 @@ public class CustomNamePlayersActivity extends AppCompatActivity {
         }
     }
 
-    public defaultPlayerName defaultPlayerName(int playerNumber){
+    private defaultPlayerName defaultPlayerName(int playerNumber) {
         return new defaultPlayerName(String.format(getResources().getString(R.string.Default_Player_name_with_number), playerNumber));
     }
 

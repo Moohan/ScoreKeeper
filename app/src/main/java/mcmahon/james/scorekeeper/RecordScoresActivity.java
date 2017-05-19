@@ -26,12 +26,12 @@ import java.util.ArrayList;
 public class RecordScoresActivity extends AppCompatActivity {
 
 
-    public int[][] scoreSums; //initialised once we know how many players we have
-    public int rounds;
-    ArrayList<ArrayList<Integer>> scores = new ArrayList<>();
-    ArrayList<ArrayList<Integer>> scoreID = new ArrayList<>();
+    private int[][] scoreSums; //initialised once we know how many players we have
+    private int rounds;
+    private ArrayList<ArrayList<Integer>> scores = new ArrayList<>();
+    private ArrayList<ArrayList<Integer>> scoreID = new ArrayList<>();
 
-    public defaultPlayerName defaultPlayerName(int playerNumber) {
+    private defaultPlayerName defaultPlayerName(int playerNumber) {
         return new defaultPlayerName(String.format(getResources().getString(R.string.Default_Player_name_with_number), playerNumber));
     }
 
@@ -107,7 +107,7 @@ public class RecordScoresActivity extends AppCompatActivity {
     }
 
 
-    public final void newScoreRow(TableRow tableRow, int numberOfPlayers) {
+    private void newScoreRow(TableRow tableRow, int numberOfPlayers) {
         for (int n = 1; n <= numberOfPlayers; n++) {
             // Create editTexts
             EditText editTextScore = new EditText(this);
