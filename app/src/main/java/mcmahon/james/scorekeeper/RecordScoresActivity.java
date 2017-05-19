@@ -40,18 +40,21 @@ public class RecordScoresActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_scores);
+
         Intent intent = getIntent();
         int numberOfPlayers = intent.getIntExtra(SelectNumPlayersActivity.EXTRA_PLAYERS, 2);
 
         Boolean customNames = intent.getBooleanExtra(SelectNumPlayersActivity.EXTRA_CUSTOM_NAMES, false);
 
         String playerNames[] = new String[numberOfPlayers];
+
         if (customNames) {
             playerNames = intent.getStringArrayExtra(CustomNamePlayersActivity.EXTRA_PLAYER_NAMES);
         }
 
         //Create the player names header row
         TableRow tableHeaderRow = (TableRow) findViewById(R.id.player_score_table_header_row);
+
 
         for (int n = 1; n <= numberOfPlayers; n++) {
             // Create textView
@@ -67,6 +70,7 @@ public class RecordScoresActivity extends AppCompatActivity {
             // Add text view to row
             tableHeaderRow.addView(textView);
         }
+
 
         //Create bottom row of table to show score sums
         TableRow tableSumRow = (TableRow) findViewById(R.id.player_score_table_sum_row);
@@ -131,7 +135,7 @@ public class RecordScoresActivity extends AppCompatActivity {
     }
 
 
-    public final void addScores(View view) {
+    public final void endRound(View view) {
         Intent intent = getIntent();
         int numberOfPlayers = intent.getIntExtra(SelectNumPlayersActivity.EXTRA_PLAYERS, 2);
         TableLayout scoresTable = (TableLayout) findViewById(R.id.player_score_table);
