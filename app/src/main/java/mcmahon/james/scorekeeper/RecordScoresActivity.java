@@ -26,9 +26,9 @@ import java.util.ArrayList;
 public class RecordScoresActivity extends AppCompatActivity {
 
 
-    private int[][] scoreSums; //initialised once we know how many players we have
+    private double[][] scoreSums; //initialised once we know how many players we have
     private int rounds;
-    private ArrayList<ArrayList<Integer>> scores = new ArrayList<>();
+    private ArrayList<ArrayList<Double>> scores = new ArrayList<>();
     private ArrayList<ArrayList<Integer>> scoreID = new ArrayList<>();
 
     private defaultPlayerName defaultPlayerName(int playerNumber) {
@@ -68,7 +68,7 @@ public class RecordScoresActivity extends AppCompatActivity {
 
         //Create bottom row of table to show score sums
         TableRow tableSumRow = (TableRow) findViewById(R.id.player_score_table_sum_row);
-        scoreSums = new int[numberOfPlayers][2];
+        scoreSums = new double[numberOfPlayers][2];
 
         //initialise scores to zero
         for (int player = 1; player <= numberOfPlayers; player++) {
@@ -76,7 +76,7 @@ public class RecordScoresActivity extends AppCompatActivity {
         }
 
         for (int i = 1; i <= numberOfPlayers; i++) {
-            scores.add(new ArrayList<Integer>());
+            scores.add(new ArrayList<Double>());
         }
 
         rounds = 0;
@@ -140,11 +140,12 @@ public class RecordScoresActivity extends AppCompatActivity {
             //turn off the edit text
             editText.setEnabled(false);
             //collect the scores into an array
-            int score = 0;
+            double score = 0;
             if (!(editText.getText().toString().equals(""))) {
-                score = Integer.parseInt(editText.getText().toString());
+                score = Double.parseDouble(editText.getText().toString());
             }
             scores.get(n - 1).add(score);
+
         }
 
         //Draw some a new row of edit texts
