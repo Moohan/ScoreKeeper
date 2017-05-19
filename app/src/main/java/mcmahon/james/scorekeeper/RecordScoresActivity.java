@@ -103,9 +103,9 @@ public class RecordScoresActivity extends AppCompatActivity {
         for (int i = 1; i <= numberOfPlayers; i++) {
             scoreID.add(new ArrayList<Integer>());
         }
-
         newScoreRow(tableRow1, numberOfPlayers);
     }
+
 
     public final void newScoreRow(TableRow tableRow, int numberOfPlayers) {
         for (int n = 1; n <= numberOfPlayers; n++) {
@@ -134,7 +134,6 @@ public class RecordScoresActivity extends AppCompatActivity {
         int numberOfPlayers = intent.getIntExtra(SelectNumPlayersActivity.EXTRA_PLAYERS, 2);
         TableLayout scoresTable = (TableLayout) findViewById(R.id.player_score_table);
 
-
         //Store Player scores
         for (int n = 1; n <= numberOfPlayers; n++) {
             EditText editText = (EditText) findViewById(scoreID.get(n - 1).get(rounds));
@@ -145,7 +144,6 @@ public class RecordScoresActivity extends AppCompatActivity {
             if (!(editText.getText().toString().equals(""))) {
                 score = Integer.parseInt(editText.getText().toString());
             }
-
             scores.get(n - 1).add(score);
         }
 
@@ -159,5 +157,4 @@ public class RecordScoresActivity extends AppCompatActivity {
         //next round
         rounds++;
     }
-
 }
