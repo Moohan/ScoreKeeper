@@ -21,6 +21,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class RecordScoresActivity extends AppCompatActivity {
@@ -145,6 +146,14 @@ public class RecordScoresActivity extends AppCompatActivity {
                 score = Double.parseDouble(editText.getText().toString());
             }
             scores.get(n - 1).add(score);
+            scoreSums[n - 1][1] += score;
+            DecimalFormat decimalFormat = new DecimalFormat("0.###");
+            String scoreSumDisplayable = decimalFormat.format(scoreSums[n - 1][1]);
+
+            int playerScoreID = (int) scoreSums[n - 1][0];
+            TextView textViewScoresSum = (TextView) findViewById(playerScoreID);
+            textViewScoresSum.setText(scoreSumDisplayable);
+
 
         }
 
