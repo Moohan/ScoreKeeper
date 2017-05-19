@@ -165,7 +165,7 @@ public class RecordScoresActivity extends AppCompatActivity {
             }
         }
 
-        scoresTable.addView(tableRow, scoresTable.getChildCount() - 2);
+        scoresTable.addView(tableRow);
 
         //next round
         rounds++;
