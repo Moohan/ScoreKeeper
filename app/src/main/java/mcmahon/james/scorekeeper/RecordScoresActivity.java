@@ -68,7 +68,7 @@ public class RecordScoresActivity extends AppCompatActivity {
 
         //Create bottom row of table to show score sums
         TableRow tableSumRow = (TableRow) findViewById(R.id.player_score_table_sum_row);
-        int[][] scoreSums = new int[numberOfPlayers][2];
+        scoreSums = new int[numberOfPlayers][2];
 
         //initialise scores to zero
         for (int player = 1; player <= numberOfPlayers; player++) {
@@ -104,6 +104,10 @@ public class RecordScoresActivity extends AppCompatActivity {
             scoreID.add(new ArrayList<Integer>());
         }
 
+        newScoreRow(tableRow1, numberOfPlayers);
+    }
+
+    public final void newScoreRow(TableRow tableRow, int numberOfPlayers) {
         for (int n = 1; n <= numberOfPlayers; n++) {
             // Create editTexts
             EditText editTextScore = new EditText(this);
@@ -120,9 +124,10 @@ public class RecordScoresActivity extends AppCompatActivity {
             scoreID.get(n - 1).add(editTextScore.getId());
 
             // Add text view to row
-            tableRow1.addView(editTextScore);
+            tableRow.addView(editTextScore);
         }
     }
+
 
     public final void addScores(View view) {
         Intent intent = getIntent();
@@ -146,25 +151,8 @@ public class RecordScoresActivity extends AppCompatActivity {
 
         //Draw some a new row of edit texts
         TableRow tableRow = new TableRow(this);
-        int roundIDs[] = new int[numberOfPlayers];
-        for (int n = 1; n <= numberOfPlayers; n++) {
-            // Create editTexts
-            EditText editTextScore = new EditText(this);
-            String hint = "0";
-            editTextScore.setHint(hint);
-            editTextScore.setInputType(InputType.TYPE_CLASS_NUMBER);
-            editTextScore.setGravity(Gravity.CENTER_HORIZONTAL);
-            editTextScore.setId(View.generateViewId());
 
-            scoreID.get(n - 1).add(editTextScore.getId());
-
-            // Add text view to row
-            tableRow.addView(editTextScore);
-            editTextScore.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-            if (n == numberOfPlayers) {
-                editTextScore.setImeOptions(EditorInfo.IME_ACTION_DONE);
-            }
-        }
+        newScoreRow(tableRow, numberOfPlayers);
 
         scoresTable.addView(tableRow, scoresTable.getChildCount() - 2);
 
