@@ -61,6 +61,7 @@ public class RecordScoresActivity extends AppCompatActivity {
 
             textView.setText(playerName);
             textView.setGravity(Gravity.CENTER_HORIZONTAL);
+            textView.setTypeface(Typeface.DEFAULT_BOLD);
             // Add text view to row
             tableHeaderRow.addView(textView);
         }
@@ -165,7 +166,7 @@ public class RecordScoresActivity extends AppCompatActivity {
             }
         }
 
-        scoresTable.addView(tableRow);
+        scoresTable.addView(tableRow, scoresTable.getChildCount() - 2);
 
         //next round
         rounds++;
