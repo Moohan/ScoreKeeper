@@ -27,7 +27,8 @@ import java.util.ArrayList;
 public class RecordScoresActivity extends AppCompatActivity {
 
 
-    private double[][] scoreSums; //initialised once we know how many players we have
+    private double[] scoreSums; //initialised once we know how many players we have
+    private int[] sumsID;
     private int rounds;
     private ArrayList<ArrayList<Double>> scores = new ArrayList<>();
     private ArrayList<ArrayList<Integer>> scoreID = new ArrayList<>();
@@ -74,11 +75,13 @@ public class RecordScoresActivity extends AppCompatActivity {
 
         //Create bottom row of table to show score sums
         TableRow tableSumRow = (TableRow) findViewById(R.id.player_score_table_sum_row);
-        scoreSums = new double[numberOfPlayers][2];
+        scoreSums = new double[numberOfPlayers];
+        sumsID = new int[numberOfPlayers];
 
         //initialise scores to zero
         for (int player = 1; player <= numberOfPlayers; player++) {
-            scoreSums[player - 1][1] = 0;
+            scoreSums[player - 1] = 0;
+            sumsID[player - 1] = 0;
         }
 
         for (int i = 1; i <= numberOfPlayers; i++) {
@@ -96,7 +99,7 @@ public class RecordScoresActivity extends AppCompatActivity {
 
             //Give each counter an ID and store it
             textView.setId(View.generateViewId());
-            scoreSums[n - 1][0] = textView.getId();
+            sumsID[n - 1] = textView.getId();
 
             // Add text view to row
             tableSumRow.addView(textView);
@@ -151,12 +154,12 @@ public class RecordScoresActivity extends AppCompatActivity {
                 score = Double.parseDouble(editText.getText().toString());
             }
             scores.get(n - 1).add(score);
-            scoreSums[n - 1][1] += score;
+            scoreSums[n - 1] += score;
             DecimalFormat decimalFormat = new DecimalFormat("0.###");
-            String scoreSumDisplayable = decimalFormat.format(scoreSums[n - 1][1]);
+            String scoreSumDisplayable = decimalFormat.format(scoreSums[n - 1]);
 
-            int playerScoreID = (int) scoreSums[n - 1][0];
-            TextView textViewScoresSum = (TextView) findViewById(playerScoreID);
+
+            TextView textViewScoresSum = (TextView) findViewById(sumsID[n - 1]);
             textViewScoresSum.setText(scoreSumDisplayable);
         }
 
