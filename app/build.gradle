@@ -7,9 +7,9 @@ android {
         applicationId "mcmahon.james.scorekeeper"
         minSdkVersion 17
         targetSdkVersion 25
-        versionName '0.1.1a'
+        versionName '0.2.1'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        versionCode 2
+        versionCode 4
     }
     buildTypes {
         release {
