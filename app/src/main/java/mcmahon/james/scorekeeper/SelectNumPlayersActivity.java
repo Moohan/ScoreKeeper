@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.NumberPicker;
 
+
 public class SelectNumPlayersActivity extends AppCompatActivity {
     public static final String EXTRA_PLAYERS = "mcmahon.james.scorekeeper.PLAYERS";
     public static final String EXTRA_CUSTOM_NAMES = "mcmahon.james.scorekeeper.CUSTOM_NAMES";
@@ -24,11 +25,28 @@ public class SelectNumPlayersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_select_num_players);
         NumberPicker numberPicker = (NumberPicker) this.findViewById(R.id.playerSelector);
-        numberPicker.setMinValue(2);
-        numberPicker.setMaxValue(6);
+
+        int Min = 2;
+        int Max = 6;
+        int startValue = Math.round(Max + Min / 2);
+        numberPicker.setMinValue(Min);
+        numberPicker.setMaxValue(Max);
         numberPicker.setWrapSelectorWheel(false);
+
+        if (savedInstanceState != null) {
+            numberPicker.setValue(savedInstanceState.getInt("CurrentNumber"));
+        } else {
+            numberPicker.setValue(startValue);
+        }
     }
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        NumberPicker numberPicker = (NumberPicker) this.findViewById(R.id.playerSelector);
+        super.onSaveInstanceState(outState);
+        outState.putInt("CurrentNumber", numberPicker.getValue());
+    }
 
 
     // Called when the user clicks the  Quick Start button
