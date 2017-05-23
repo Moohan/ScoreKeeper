@@ -29,7 +29,6 @@
             android:stretchColumns="*" />
 
         <Button
-            android:id="@+id/Button_Accept_custom_players"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

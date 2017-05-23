@@ -6,7 +6,6 @@
     <string name="Quick_start">Quick Start</string>
     <string name="Name_Players">Name Players</string>
     <string name="Default_Player_name_with_number">Player %1$d</string>
-    <string name="Label_choose_number_of_Players">Choose number of players</string>
     <string name="Label_Record_Scores">Record Scores</string>
     <string name="Label_Custom_Name_Players">Name Players</string>
 </resources>

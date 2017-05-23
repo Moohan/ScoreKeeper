@@ -89,11 +89,12 @@ public class RecordScoresActivity extends AppCompatActivity {
         }
 
         rounds = 0;
-
+        //Intialise the scores sum row
         for (int n = 1; n <= numberOfPlayers; n++) {
             // Create textView
             TextView textView = new TextView(this);
             textView.setText("0");
+
             textView.setGravity(Gravity.CENTER_HORIZONTAL);
             textView.setTypeface(Typeface.DEFAULT_BOLD);
 
@@ -101,6 +102,19 @@ public class RecordScoresActivity extends AppCompatActivity {
             textView.setId(View.generateViewId());
             sumsID[n - 1] = textView.getId();
 
+            try {
+                if (savedInstanceState != null) {
+                    double savedScore = savedInstanceState.getDoubleArray("scoreSums")[n - 1];
+
+                    if (savedScore > 0) {
+                        updateScoreSums(textView, savedScore);
+                        scoreSums[n - 1] = savedScore;
+                    }
+
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
             // Add text view to row
             tableSumRow.addView(textView);
 
@@ -113,6 +127,13 @@ public class RecordScoresActivity extends AppCompatActivity {
             scoreID.add(new ArrayList<Integer>());
         }
         newScoreRow(tableRow1, numberOfPlayers);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putDoubleArray("scoreSums", scoreSums);
+        outState.putInt("rounds", rounds);
     }
 
 
@@ -155,22 +176,23 @@ public class RecordScoresActivity extends AppCompatActivity {
             }
             scores.get(n - 1).add(score);
             scoreSums[n - 1] += score;
-            DecimalFormat decimalFormat = new DecimalFormat("0.###");
-            String scoreSumDisplayable = decimalFormat.format(scoreSums[n - 1]);
 
-
-            TextView textViewScoresSum = (TextView) findViewById(sumsID[n - 1]);
-            textViewScoresSum.setText(scoreSumDisplayable);
+            updateScoreSums((TextView) (findViewById(sumsID[n - 1])), scoreSums[n - 1]);
         }
-
         //Draw some a new row of edit texts
         TableRow tableRow = new TableRow(this);
-
         newScoreRow(tableRow, numberOfPlayers);
-
         scoresTable.addView(tableRow, scoresTable.getChildCount() - 2);
 
         //next round
         rounds++;
+
+    }
+
+    private void updateScoreSums(TextView textView, double scoreSum) {
+        DecimalFormat decimalFormat = new DecimalFormat("0.###");
+        String scoreSumDisplayable = decimalFormat.format(scoreSum);
+
+        textView.setText(scoreSumDisplayable);
     }
 }

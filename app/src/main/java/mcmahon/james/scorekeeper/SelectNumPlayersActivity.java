@@ -36,6 +36,7 @@ public class SelectNumPlayersActivity extends AppCompatActivity {
         numberPicker.setWrapSelectorWheel(false);
 
         if (savedInstanceState != null) {
+            //TODO extract key strings into Constants
             numberPicker.setValue(savedInstanceState.getInt("CurrentNumber"));
         } else {
             numberPicker.setValue(startValue);
@@ -48,6 +49,7 @@ public class SelectNumPlayersActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 
         NumberPicker numberPicker = (NumberPicker) this.findViewById(R.id.playerSelector);
+        //TODO extract key strings into Constants
         outState.putInt("CurrentNumber", numberPicker.getValue());
     }
 

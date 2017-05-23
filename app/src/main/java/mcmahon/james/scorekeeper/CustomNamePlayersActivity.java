@@ -60,7 +60,7 @@ public class CustomNamePlayersActivity extends AppCompatActivity {
             if (n == numberOfPlayers) {
                 editTextPlayerName.setImeOptions(EditorInfo.IME_ACTION_DONE);
             }
-
+//TODO extract key strings into Constants
             try {
                 customName = savedInstanceState.getBooleanArray("CustomeNamesBoolean")[n - 1];
 
@@ -68,7 +68,7 @@ public class CustomNamePlayersActivity extends AppCompatActivity {
                     editTextPlayerName.setText(savedInstanceState.getStringArray("CustomeNamesStrings")[n - 1]);
                     lastCustomName = n - 1;
                 }
-            } catch (Exception e) {
+            } catch (NullPointerException e) {
                 e.printStackTrace();
             }
 
@@ -86,7 +86,7 @@ public class CustomNamePlayersActivity extends AppCompatActivity {
             tableLayout.addView(tableRow);
         }
 
-        if (lastCustomName < numberOfPlayers - 1) {
+        if (savedInstanceState != null && lastCustomName < numberOfPlayers - 1) {
             EditText editText = (EditText) findViewById(playerNameID[lastCustomName + 1]);
             editText.requestFocus(View.FOCUS_DOWN);
         }
@@ -109,6 +109,7 @@ public class CustomNamePlayersActivity extends AppCompatActivity {
                 customName[n - 1] = false;
             }
         }
+        //TODO extract key strings into Constants
         outState.putStringArray("CustomeNamesStrings", customPlayerNames);
         outState.putBooleanArray("CustomeNamesBoolean", customName);
     }
