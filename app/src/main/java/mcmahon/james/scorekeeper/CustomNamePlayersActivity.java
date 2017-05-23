@@ -25,6 +25,7 @@ public class CustomNamePlayersActivity extends AppCompatActivity {
 
     public static final String EXTRA_PLAYER_NAMES = "mcmahon.james.scorekeeper.PLAYER_NAMES";
     private int[] playerNameID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,8 @@ public class CustomNamePlayersActivity extends AppCompatActivity {
 
         TableLayout tableLayout = (TableLayout) this.findViewById(R.id.player_name_table);
         playerNameID = new int[numberOfPlayers];
+        boolean customName;
+        int lastCustomName = 0;
         for (int n = 1; n <= numberOfPlayers; n++) {
             //Create  tableRow
             TableRow tableRow = new TableRow(this);
@@ -51,16 +54,27 @@ public class CustomNamePlayersActivity extends AppCompatActivity {
             EditText editTextPlayerName = new EditText(this);
             String playerName = defaultPlayerName(n).getValue();
             editTextPlayerName.setHint(playerName);
-
-            //Give them IDs
-            editTextPlayerName.setId(View.generateViewId());
-            playerNameID[n - 1] = editTextPlayerName.getId();
             editTextPlayerName.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
             editTextPlayerName.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+
             if (n == numberOfPlayers) {
                 editTextPlayerName.setImeOptions(EditorInfo.IME_ACTION_DONE);
             }
 
+            try {
+                customName = savedInstanceState.getBooleanArray("CustomeNamesBoolean")[n - 1];
+
+                if (customName) {
+                    editTextPlayerName.setText(savedInstanceState.getStringArray("CustomeNamesStrings")[n - 1]);
+                    lastCustomName = n - 1;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            //Give them IDs
+            editTextPlayerName.setId(View.generateViewId());
+            playerNameID[n - 1] = editTextPlayerName.getId();
 
             // Add textView to row
             tableRow.addView(textViewPlayerNumber);
@@ -71,11 +85,38 @@ public class CustomNamePlayersActivity extends AppCompatActivity {
             //Add tableRow to table
             tableLayout.addView(tableRow);
         }
+
+        if (lastCustomName < numberOfPlayers - 1) {
+            EditText editText = (EditText) findViewById(playerNameID[lastCustomName + 1]);
+            editText.requestFocus(View.FOCUS_DOWN);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Intent intent = this.getIntent();
+        int numberOfPlayers = intent.getIntExtra(SelectNumPlayersActivity.EXTRA_PLAYERS, 2);
+        String customPlayerNames[] = new String[numberOfPlayers];
+        boolean customName[] = new boolean[numberOfPlayers];
+
+        for (int n = 1; n <= numberOfPlayers; n++) {
+            EditText editTextPlayerName = (EditText) findViewById(playerNameID[n - 1]);
+            if (!(editTextPlayerName.getText().toString().equals(""))) {
+                customName[n - 1] = true;
+                customPlayerNames[n - 1] = editTextPlayerName.getText().toString();
+            } else {
+                customName[n - 1] = false;
+            }
+        }
+        outState.putStringArray("CustomeNamesStrings", customPlayerNames);
+        outState.putBooleanArray("CustomeNamesBoolean", customName);
     }
 
     private defaultPlayerName defaultPlayerName(int playerNumber) {
         return new defaultPlayerName(String.format(getResources().getString(R.string.Default_Player_name_with_number), playerNumber));
     }
+
 
     public final void acceptPlayers(View view) {
         Intent intentFromNum = this.getIntent();

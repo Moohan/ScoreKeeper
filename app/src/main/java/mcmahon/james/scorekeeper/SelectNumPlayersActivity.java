@@ -29,7 +29,7 @@ public class SelectNumPlayersActivity extends AppCompatActivity {
 
         int Min = 2;
         int Max = 6;
-        int startValue = Math.round(Max + Min / 2);
+        int startValue = Math.round((Max + Min) / 2);
 
         numberPicker.setMinValue(Min);
         numberPicker.setMaxValue(Max);
