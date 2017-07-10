@@ -21,6 +21,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -84,12 +85,10 @@ public class RecordScoresActivity extends AppCompatActivity {
             sumsID[player - 1] = 0;
         }
 
-        for (int i = 1; i <= numberOfPlayers; i++) {
-            scores.add(new ArrayList<Double>());
-        }
+
 
         rounds = 0;
-        //Intialise the scores sum row
+        //Initialise the scores sum row
         for (int n = 1; n <= numberOfPlayers; n++) {
             // Create textView
             TextView textView = new TextView(this);
@@ -102,38 +101,54 @@ public class RecordScoresActivity extends AppCompatActivity {
             textView.setId(View.generateViewId());
             sumsID[n - 1] = textView.getId();
 
-            try {
-                if (savedInstanceState != null) {
-                    double savedScore = savedInstanceState.getDoubleArray("scoreSums")[n - 1];
 
-                    if (savedScore > 0) {
-                        updateScoreSums(textView, savedScore);
-                        scoreSums[n - 1] = savedScore;
-                    }
+            if (savedInstanceState != null) {
+                double savedScore = savedInstanceState.getDoubleArray("scoreSums")[n - 1];
 
+                if (savedScore > 0) {
+                    updateScoreSums(textView, savedScore);
+                    scoreSums[n - 1] = savedScore;
                 }
-            } catch (NullPointerException e) {
-                e.printStackTrace();
+
+            } else {
+                //Initialise the Array lists with number of players
+                for (int i = 1; i <= numberOfPlayers; i++) {
+                    scores.add(new ArrayList<Double>());
+                }
             }
+
             // Add text view to row
             tableSumRow.addView(textView);
-
         }
 
-        //Create the first row of editTexts
         TableRow tableRow1 = (TableRow) findViewById(R.id.player_score_table_row1);
-
+        //Create the first row of editTexts
         for (int i = 1; i <= numberOfPlayers; i++) {
             scoreID.add(new ArrayList<Integer>());
         }
         newScoreRow(tableRow1, numberOfPlayers);
-    }
 
+        if (savedInstanceState != null) {
+            rounds = savedInstanceState.getInt("rounds");
+            scores = (ArrayList<ArrayList<Double>>) savedInstanceState.getSerializable("scores");
+            for (int i = 1; i <= numberOfPlayers; i++) {
+                EditText editText = (EditText) findViewById(scoreID.get(i).get(0));
+                editText.setText(scoreFormat(scores.get(i).get(0)));
+            }
+
+
+        }
+    }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        Intent intent = getIntent();
+        int numberOfPlayers = intent.getIntExtra(SelectNumPlayersActivity.EXTRA_PLAYERS, 2);
+
         super.onSaveInstanceState(outState);
         outState.putDoubleArray("scoreSums", scoreSums);
         outState.putInt("rounds", rounds);
+        outState.putSerializable("scores", scores);
+
     }
 
 
@@ -179,7 +194,7 @@ public class RecordScoresActivity extends AppCompatActivity {
 
             updateScoreSums((TextView) (findViewById(sumsID[n - 1])), scoreSums[n - 1]);
         }
-        //Draw some a new row of edit texts
+        //Draw a new row of edit texts
         TableRow tableRow = new TableRow(this);
         newScoreRow(tableRow, numberOfPlayers);
         scoresTable.addView(tableRow, scoresTable.getChildCount() - 2);
@@ -190,9 +205,12 @@ public class RecordScoresActivity extends AppCompatActivity {
     }
 
     private void updateScoreSums(TextView textView, double scoreSum) {
-        DecimalFormat decimalFormat = new DecimalFormat("0.###");
-        String scoreSumDisplayable = decimalFormat.format(scoreSum);
-
+        String scoreSumDisplayable = scoreFormat(scoreSum);
         textView.setText(scoreSumDisplayable);
+    }
+
+    private String scoreFormat(double score){
+        DecimalFormat decimalFormat = new DecimalFormat("0.###");
+        return decimalFormat.format(score);
     }
 }
