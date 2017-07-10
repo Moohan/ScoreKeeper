@@ -1,6 +1,6 @@
 package mcmahon.james.scorekeeper;
 
-public class defaultPlayerName {
+public class  defaultPlayerName {
     private final String value;
 
     public defaultPlayerName(String value) {
