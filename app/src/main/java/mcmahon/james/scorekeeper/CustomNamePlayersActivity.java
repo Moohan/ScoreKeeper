@@ -21,6 +21,12 @@ public class CustomNamePlayersActivity extends AppCompatActivity {
     public static final String EXTRA_PLAYER_NAMES = "mcmahon.james.scorekeeper.PLAYER_NAMES";
     private CustomNamePlayersViewModel viewModel;
 
+    /**
+     * Initializes the activity UI, ensures the view model is initialized for the requested number
+     * of players, and populates a table of labeled EditText inputs that are kept in sync with the view model.
+     *
+     * @param savedInstanceState the previously saved state of the activity, or null if none
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +75,12 @@ public class CustomNamePlayersActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Collects player names from the view model (using "Player X" when a name is empty)
+     * and launches RecordScoresActivity with the number of players and the names.
+     *
+     * @param view the View that triggered this action
+     */
     public final void acceptPlayers(View view) {
         Intent intent = new Intent(this, RecordScoresActivity.class);
         intent.putExtra(SelectNumPlayersActivity.EXTRA_PLAYERS, viewModel.getNumberOfPlayers());
